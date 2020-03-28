@@ -41,6 +41,7 @@
 - (void)setCharacteristicValue:(CDVInvokedUrlCommand *)command;
 
 - (void)startAdvertising:(CDVInvokedUrlCommand *)command;
+- (void)stopAdvertising:(CDVInvokedUrlCommand *)command;
 
 - (void)setCharacteristicValueChangedListener:(CDVInvokedUrlCommand *)command;
 - (void)setDescriptorValueChangedListener:(CDVInvokedUrlCommand *)command;
