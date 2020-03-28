@@ -294,14 +294,15 @@ public class BLEPeripheralPlugin extends CordovaPlugin {
 
         } else if (action.equals(START_ADVERTISING)) {
 
-            UUID serviceUUID = uuidFromString(args.getString(0));
-            String advertisedName = args.getString(1);
+            String advertisedName = args.getString(0);
+            UUID serviceUUID0 = uuidFromString(args.getString(1));
+            UUID serviceUUID1 = uuidFromString(args.getString(2));
 
             Log.w(TAG, "App requested to advertise name " + advertisedName + " but this feature is not currently supported by the Android version of the plugin");
 
             BluetoothLeAdvertiser bluetoothLeAdvertiser = bluetoothAdapter.getBluetoothLeAdvertiser();
 
-            AdvertiseData advertisementData = getAdvertisementData(serviceUUID);
+            AdvertiseData advertisementData = getAdvertisementData(serviceUUID0, serviceUUID1);
             AdvertiseSettings advertiseSettings = getAdvertiseSettings();
 
             bluetoothLeAdvertiser.startAdvertising(advertiseSettings, advertisementData, advertiseCallback);
@@ -542,11 +543,12 @@ public class BLEPeripheralPlugin extends CordovaPlugin {
     };
 
     // https://github.com/don/uribeacon/blob/58c31cf28d06a80880b0ed46b005204821fd623f/beacons/android/app/src/main/java/org/uribeacon/example/beacon/UriBeaconAdvertiserActivity.java
-    private AdvertiseData getAdvertisementData(UUID serviceUuid) {
+    private AdvertiseData getAdvertisementData(UUID serviceUuid0, UUID serviceUuid1) {
         AdvertiseData.Builder builder = new AdvertiseData.Builder();
         builder.setIncludeTxPowerLevel(false); // reserve advertising space for URI
 
-        builder.addServiceUuid(new ParcelUuid(serviceUuid)); // TODO accept multiple services in the future
+        builder.addServiceUuid(new ParcelUuid(serviceUuid0)); // TODO accept multiple services in the future
+        builder.addServiceUuid(new ParcelUuid(serviceUuid1));
         builder.setIncludeDeviceName(true);
         return builder.build();
     }
