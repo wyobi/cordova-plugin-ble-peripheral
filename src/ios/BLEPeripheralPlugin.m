@@ -152,15 +152,13 @@ static NSDictionary *dataToArrayBuffer(NSData* data) {
 
 - (void)startAdvertising:(CDVInvokedUrlCommand *)command {
 
-    NSString *localName = [command.arguments objectAtIndex:0];
-    NSString *serviceUUID0String = [command.arguments objectAtIndex:1];
-    CBUUID *serviceUUID0 = [CBUUID UUIDWithString: serviceUUID0String];
-    // NSString *serviceUUID1String = [command.arguments objectAtIndex:2];
-    // CBUUID *serviceUUID1 = [CBUUID UUIDWithString: serviceUUID1String];
+    NSString *localName = [command.arguments objectAtIndex:1];
+    NSString *serviceUUIDString = [command.arguments objectAtIndex:0];
+    CBUUID *serviceUUID = [CBUUID UUIDWithString: serviceUUIDString];
 
 
     [manager startAdvertising:@{
-                               CBAdvertisementDataServiceUUIDsKey : @[serviceUUID0],
+                               CBAdvertisementDataServiceUUIDsKey : @[serviceUUID],
                                CBAdvertisementDataLocalNameKey : localName
                                }];
 
