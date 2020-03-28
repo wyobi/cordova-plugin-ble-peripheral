@@ -173,15 +173,15 @@ module.exports = {
     },
 
     // Future versions should should allow one or multiple services, name should be optional
-    startAdvertising: function(localName, services) {
+    startAdvertising: function(localName, service0, service1) {
 
         return new Promise(function(resolve, reject) {
-            var param = []
-            param.push(localName)
-            for (i=0; i<services.length; i++) {
-                param.push(services[i])
-            }
-            cordova.exec(resolve, reject, 'BLEPeripheral', 'startAdvertising', param);
+            // var param = []
+            // param.push(localName)
+            // for (i=0; i<services.length; i++) {
+            //     param.push(services[i])
+            // }
+            cordova.exec(resolve, reject, 'BLEPeripheral', 'startAdvertising', [localName, service0, service1]);
         });
 
     },
