@@ -151,12 +151,16 @@ static NSDictionary *dataToArrayBuffer(NSData* data) {
 }
 
 - (void)removeService:(CDVInvokedUrlCommand *)command{
-    NSLog(@"%@", @"removeService is not implemented yet");
+    NSString *serviceUUIDString = [command.arguments objectAtIndex:0];
+    CBMutableService *service = [services objectForKey:serviceUUIDString];
+
+    if (service) {
+        [manager removeService:service];
+        [services removeObjectForKey:serviceUUIDString];
+    }
 }
 
 - (void)removeAllServices:(CDVInvokedUrlCommand *)command{
-    NSLog(@"%@", @"removeAllServices");
-
     [manager removeAllServices];
 }
 
