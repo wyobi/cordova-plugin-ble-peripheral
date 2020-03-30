@@ -61,9 +61,12 @@ public class BLEPeripheralPlugin extends CordovaPlugin {
     // actions
     private static final String CREATE_SERVICE = "createService";
     private static final String CREATE_SERVICE_FROM_JSON = "createServiceFromJSON";
+    private static final String REMOVE_SERVICE = "removeService";
+    private static final String REMOVE_ALL_SERVICES = "removeAllServices";
     private static final String ADD_CHARACTERISTIC = "addCharacteristic";
     private static final String PUBLISH_SERVICE = "publishService";
     private static final String START_ADVERTISING = "startAdvertising";
+    private static final String STOP_ADVERTISING = "startAdvertising";
     private static final String SET_CHARACTERISTIC_VALUE = "setCharacteristicValue";
 
     private static final String SET_CHARACTERISTIC_VALUE_CHANGED_LISTENER = "setCharacteristicValueChangedListener";
@@ -180,6 +183,10 @@ public class BLEPeripheralPlugin extends CordovaPlugin {
             services.put(serviceUUID, service);
 
             callbackContext.success();
+
+        } else if (action.equals(REMOVE_SERVICE)) {
+
+        } else if (action.equals(REMOVE_ALL_SERVICES)) {
 
         } else if (action.contentEquals(ADD_CHARACTERISTIC)) {
 
