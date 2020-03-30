@@ -172,6 +172,22 @@ module.exports = {
 
     },
 
+    removeService: function (service) {
+
+        return new Promise(function (resolve, reject) {
+            cordova.exec(resolve, reject, 'BLEPeripheral', 'removeService', [service]);
+        });
+
+    },
+
+    removeAllServices: function () {
+
+        return new Promise(function (resolve, reject) {
+            cordova.exec(resolve, reject, 'BLEPeripheral', 'removeAllServices', []);
+        });
+
+    },
+
     // Future versions should should allow one or multiple services, name should be optional
     startAdvertising: function (localName, service) {
 

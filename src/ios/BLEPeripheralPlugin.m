@@ -150,6 +150,16 @@ static NSDictionary *dataToArrayBuffer(NSData* data) {
     [manager addService:service];
 }
 
+- (void)removeService:(CDVInvokedUrlCommand *)command{
+    NSLog(@"%@", @"removeService is not implemented yet");
+}
+
+- (void)removeAllServices:(CDVInvokedUrlCommand *)command{
+    NSLog(@"%@", @"removeAllServices");
+
+    [manager removeAllServices];
+}
+
 - (void)startAdvertising:(CDVInvokedUrlCommand *)command {
 
     NSString *localName = [command.arguments objectAtIndex:1];

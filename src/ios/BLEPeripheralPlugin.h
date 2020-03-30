@@ -38,6 +38,8 @@
 - (void)createServiceFromJSON:(CDVInvokedUrlCommand *)command;
 - (void)addCharacteristic:(CDVInvokedUrlCommand *)command;
 - (void)publishService:(CDVInvokedUrlCommand *)command;
+- (void)removeService:(CDVInvokedUrlCommand *)command;
+- (void)removeAllServices:(CDVInvokedUrlCommand *)command;
 - (void)setCharacteristicValue:(CDVInvokedUrlCommand *)command;
 
 - (void)startAdvertising:(CDVInvokedUrlCommand *)command;
