@@ -321,7 +321,7 @@ public class BLEPeripheralPlugin extends CordovaPlugin {
 
             bluetoothLeAdvertiser.stopAdvertising(advertiseCallback);
 
-            advertisingStartedCallback = callbackContext;
+            // advertisingStartedCallback = callbackContext;
 
         } else if (action.equals(SET_CHARACTERISTIC_VALUE)) {
 
