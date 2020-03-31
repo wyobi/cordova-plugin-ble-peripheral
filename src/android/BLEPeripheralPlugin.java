@@ -301,8 +301,8 @@ public class BLEPeripheralPlugin extends CordovaPlugin {
 
         } else if (action.equals(START_ADVERTISING)) {
 
-            String advertisedName = args.getString(0);
-            UUID serviceUUID = uuidFromString(args.getString(1));
+            String advertisedName = args.getString(1);
+            UUID serviceUUID = uuidFromString(args.getString(0));
 
             Log.w(TAG, "App requested to advertise name " + advertisedName + " but this feature is not currently supported by the Android version of the plugin");
 
