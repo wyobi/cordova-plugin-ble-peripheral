@@ -186,7 +186,33 @@ public class BLEPeripheralPlugin extends CordovaPlugin {
 
         } else if (action.equals(REMOVE_SERVICE)) {
 
+            UUID serviceUUID = uuidFromString(args.getString(0));
+            BluetoothGattService service = services.get(serviceUUID);
+
+            if (service == null) {
+                callbackContext.error("Service " + serviceUUID + " not found");
+                return /* validAction */ true; // stop processing because of error
+            }
+
+            boolean success = gattServer.removeService(service);
+
+            if (success) {
+                services.remove(serviceUUID);
+                callbackContext.success();
+            } else {
+                callbackContext.error("Error removing " + serviceUUID + " to GATT Server");
+            }
+
         } else if (action.equals(REMOVE_ALL_SERVICES)) {
+
+            boolean success = gattServer.clearServices();
+
+            if (success) {
+                services.clear();
+                callbackContext.success();
+            } else {
+                callbackContext.error("Error removing all Services from GATT Server");
+            }
 
         } else if (action.contentEquals(ADD_CHARACTERISTIC)) {
 
@@ -321,7 +347,7 @@ public class BLEPeripheralPlugin extends CordovaPlugin {
 
             bluetoothLeAdvertiser.stopAdvertising(advertiseCallback);
 
-            // advertisingStartedCallback = callbackContext;
+            callbackContext.success();
 
         } else if (action.equals(SET_CHARACTERISTIC_VALUE)) {
 

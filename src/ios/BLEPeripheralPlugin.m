@@ -162,6 +162,7 @@ static NSDictionary *dataToArrayBuffer(NSData* data) {
 
 - (void)removeAllServices:(CDVInvokedUrlCommand *)command{
     [manager removeAllServices];
+    [services removeAllObjects];
 }
 
 - (void)startAdvertising:(CDVInvokedUrlCommand *)command {
