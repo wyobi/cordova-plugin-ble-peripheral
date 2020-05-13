@@ -205,14 +205,7 @@ public class BLEPeripheralPlugin extends CordovaPlugin {
 
         } else if (action.equals(REMOVE_ALL_SERVICES)) {
 
-            boolean success = gattServer.clearServices();
-
-            if (success) {
-                services.clear();
-                callbackContext.success();
-            } else {
-                callbackContext.error("Error removing all Services from GATT Server");
-            }
+            gattServer.clearServices();
 
         } else if (action.contentEquals(ADD_CHARACTERISTIC)) {
 
