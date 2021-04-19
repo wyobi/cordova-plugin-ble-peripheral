@@ -166,16 +166,17 @@ static NSDictionary *dataToArrayBuffer(NSData* data) {
 }
 
 - (void)startAdvertising:(CDVInvokedUrlCommand *)command {
-
-    NSString *localName = [command.arguments objectAtIndex:1];
-    NSString *serviceUUIDString = [command.arguments objectAtIndex:0];
-    CBUUID *serviceUUID = [CBUUID UUIDWithString: serviceUUIDString];
-
+    NSString *localName = [command.arguments objectAtIndex:0];
+    
+    NSMutableArray *serviceUUIDs = [NSMutableArray arrayWithCapacity:command.arguments.count-1];
+    for (int i=1; i<command.arguments.count; i++) {
+        [serviceUUIDs addObject:[CBUUID UUIDWithString: [command.arguments objectAtIndex:i]]];
+    }
 
     [manager startAdvertising:@{
-                               CBAdvertisementDataServiceUUIDsKey : @[serviceUUID],
-                               CBAdvertisementDataLocalNameKey : localName
-                               }];
+        CBAdvertisementDataLocalNameKey : localName,
+        CBAdvertisementDataServiceUUIDsKey : serviceUUIDs
+    }];
 
     startAdvertisingCallbackId = [command.callbackId copy];
 }
