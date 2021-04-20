@@ -158,6 +158,9 @@ static NSDictionary *dataToArrayBuffer(NSData* data) {
         [manager removeService:service];
         [services removeObjectForKey:serviceUUIDString];
     }
+
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void)removeAllServices:(CDVInvokedUrlCommand *)command{
@@ -182,7 +185,10 @@ static NSDictionary *dataToArrayBuffer(NSData* data) {
 }
 
 - (void)stopAdvertising:(CDVInvokedUrlCommand *)command {
-        [manager stopAdvertising];
+    [manager stopAdvertising];
+
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void)setCharacteristicValueChangedListener:(CDVInvokedUrlCommand *)command {
