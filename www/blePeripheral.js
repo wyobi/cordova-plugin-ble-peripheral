@@ -188,12 +188,14 @@ module.exports = {
 
     },
 
-    startAdvertising: function(localName, services) {
+    startAdvertising: function(localName, services, manufacturerId, manufacturerData) {
         return new Promise(function(resolve, reject) {
-            var param = []
-            param.push(localName)
-            for (var i=0; i<services.length; i++) {
-                param.push(services[i])
+            var param = [];
+            param.push(localName);
+            param.push(services); // Array of UUIDs
+            if (typeof manufacturerId !== 'undefined' && manufacturerData !== undefined) {
+                param.push(manufacturerId);
+                param.push(manufacturerData);
             }
             cordova.exec(resolve, reject, 'BLEPeripheral', 'startAdvertising', param);
         });

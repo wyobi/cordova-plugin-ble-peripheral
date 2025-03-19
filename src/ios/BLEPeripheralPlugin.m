@@ -170,17 +170,33 @@ static NSDictionary *dataToArrayBuffer(NSData* data) {
 
 - (void)startAdvertising:(CDVInvokedUrlCommand *)command {
     NSString *localName = [command.arguments objectAtIndex:0];
-    
-    NSMutableArray *serviceUUIDs = [NSMutableArray arrayWithCapacity:command.arguments.count-1];
-    for (int i=1; i<command.arguments.count; i++) {
-        [serviceUUIDs addObject:[CBUUID UUIDWithString: [command.arguments objectAtIndex:i]]];
+    NSArray *serviceUUIDs = [command.arguments objectAtIndex:1];
+    NSMutableArray *advertisedServiceUUIDs = [NSMutableArray array];
+    for (NSString *uuidString in serviceUUIDs) {
+        if (uuidString && [uuidString length] > 0) {
+            [advertisedServiceUUIDs addObject:[CBUUID UUIDWithString:uuidString]];
+        }
     }
-
-    [manager startAdvertising:@{
-        CBAdvertisementDataLocalNameKey : localName,
-        CBAdvertisementDataServiceUUIDsKey : serviceUUIDs
-    }];
-
+    NSMutableDictionary *advertisingData = [NSMutableDictionary dictionary];
+    if (localName) {
+        [advertisingData setObject:localName forKey:CBAdvertisementDataLocalNameKey];
+    }
+    if (advertisedServiceUUIDs.count > 0) {
+        [advertisingData setObject:advertisedServiceUUIDs forKey:CBAdvertisementDataServiceUUIDsKey];
+    }
+    try {
+        NSNumber *manufacturerId = [command.arguments objectAtIndex:2];
+        NSData *manufacturerData = [command.arguments objectAtIndex:3];
+        if (manufacturerId && manufacturerData) {
+            uint16_t mId = [manufacturerId unsignedShortValue];
+            NSMutableData *combinedData = [NSMutableData dataWithBytes:&mId length:sizeof(mId)];
+            [combinedData appendData:manufacturerData];
+            [advertisingData setObject:combinedData forKey:CBAdvertisementDataManufacturerDataKey];
+        }
+    } @catch (NSException *e) {
+        NSLog(@"No manufacturer data provided, proceeding without it");
+    }
+    [manager startAdvertising:advertisingData];
     startAdvertisingCallbackId = [command.callbackId copy];
 }
 

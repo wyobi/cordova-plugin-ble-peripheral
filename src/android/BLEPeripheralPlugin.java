@@ -319,21 +319,36 @@ public class BLEPeripheralPlugin extends CordovaPlugin {
             }
 
         } else if (action.equals(START_ADVERTISING)) {
+            String advertisedName = args.getString(0); // localName
+            AdvertiseData.Builder dataBuilder = new AdvertiseData.Builder()
+                    .setIncludeDeviceName(true);
 
-            String advertisedName = args.getString(1);
-            UUID serviceUUID = uuidFromString(args.getString(0));
+            // Add service UUIDs from args (index 1 is the services array)
+            JSONArray serviceUuids = args.getJSONArray(1); // services is an array
+            for (int i = 0; i < serviceUuids.length(); i++) {
+                String uuid = serviceUuids.getString(i);
+                if (uuid != null && !uuid.isEmpty()) {
+                    dataBuilder.addServiceUuid(new ParcelUuid(UUID.fromString(uuid)));
+                }
+            }
 
-            Log.w(TAG, "App requested to advertise name " + advertisedName + " but this feature is not currently supported by the Android version of the plugin");
+            // Check for manufacturer data (optional, at indices 2 and 3)
+            try {
+                int manufacturerId = args.getInt(2);
+                byte[] manufacturerData = args.getArrayBuffer(3);
+                dataBuilder.addManufacturerData(manufacturerId, manufacturerData);
+            } catch (JSONException e) {
+                // Ignore if manufacturerId or manufacturerData are not provided
+                Log.d(TAG, "No manufacturer data provided, proceeding without it");
+            }
+
+            AdvertiseSettings advertiseSettings = getAdvertiseSettings();
+            AdvertiseData advertisementData = dataBuilder.build();
 
             BluetoothLeAdvertiser bluetoothLeAdvertiser = bluetoothAdapter.getBluetoothLeAdvertiser();
-
-            AdvertiseData advertisementData = getAdvertisementData(serviceUUID);
-            AdvertiseSettings advertiseSettings = getAdvertiseSettings();
-
             bluetoothLeAdvertiser.startAdvertising(advertiseSettings, advertisementData, advertiseCallback);
 
             advertisingStartedCallback = callbackContext;
-
         } else if (action.equals(STOP_ADVERTISING)) {
 
             BluetoothLeAdvertiser bluetoothLeAdvertiser = bluetoothAdapter.getBluetoothLeAdvertiser();
