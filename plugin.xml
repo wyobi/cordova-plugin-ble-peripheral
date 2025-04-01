@@ -43,6 +43,7 @@
         <config-file target="AndroidManifest.xml" parent="/manifest">
             <uses-permission android:name="android.permission.BLUETOOTH"/>
             <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+            <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE"/>
         </config-file>
 
         <source-file src="src/android/BLEPeripheralPlugin.java" target-dir="src/com/megster/cordova/ble/peripheral"/>
