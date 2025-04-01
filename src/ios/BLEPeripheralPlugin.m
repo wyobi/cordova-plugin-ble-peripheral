@@ -184,7 +184,7 @@ static NSDictionary *dataToArrayBuffer(NSData* data) {
     if (advertisedServiceUUIDs.count > 0) {
         [advertisingData setObject:advertisedServiceUUIDs forKey:CBAdvertisementDataServiceUUIDsKey];
     }
-    try {
+    @try {
         NSNumber *manufacturerId = [command.arguments objectAtIndex:2];
         NSData *manufacturerData = [command.arguments objectAtIndex:3];
         if (manufacturerId && manufacturerData) {
